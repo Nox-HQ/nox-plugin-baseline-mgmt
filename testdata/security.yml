@@ -1,0 +1,11 @@
+headers:
+  x-frame-options: DENY
+  x-content-type-options: nosniff
+  content-security-policy: "default-src 'self'"
+cors:
+  allowed_origins:
+    - "https://example.com"
+rate_limiting:
+  enabled: true
+  max_requests: 100
+  window_seconds: 60

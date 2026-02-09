@@ -1,0 +1,11 @@
+# Build artifacts
+*.o
+*.exe
+bin/
+
+# IDE files
+.idea/
+.vscode/
+
+# Logs
+*.log
