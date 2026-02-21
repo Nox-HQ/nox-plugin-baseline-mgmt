@@ -37,14 +37,12 @@ func TestScanFindsSuppressedWarningsGo(t *testing.T) {
 	hasNosec := false
 	hasNolint := false
 	for _, f := range found {
-		for _, m := range f.GetMetadata() {
-			if m.GetKey() == "suppress_type" {
-				switch m.GetValue() {
-				case "nosec":
-					hasNosec = true
-				case "nolint:gosec":
-					hasNolint = true
-				}
+		if v, ok := f.GetMetadata()["suppress_type"]; ok {
+			switch v {
+			case "nosec":
+				hasNosec = true
+			case "nolint:gosec":
+				hasNolint = true
 			}
 		}
 	}
@@ -63,10 +61,8 @@ func TestScanFindsSuppressedWarningsPython(t *testing.T) {
 	found := findByRule(resp.GetFindings(), "BASELINE-002")
 	hasNoqa := false
 	for _, f := range found {
-		for _, m := range f.GetMetadata() {
-			if m.GetKey() == "suppress_type" && m.GetValue() == "noqa" {
-				hasNoqa = true
-			}
+		if f.GetMetadata()["suppress_type"] == "noqa" {
+			hasNoqa = true
 		}
 	}
 	if !hasNoqa {
@@ -81,10 +77,8 @@ func TestScanFindsSuppressedWarningsJS(t *testing.T) {
 	found := findByRule(resp.GetFindings(), "BASELINE-002")
 	hasESLint := false
 	for _, f := range found {
-		for _, m := range f.GetMetadata() {
-			if m.GetKey() == "suppress_type" && m.GetValue() == "eslint-disable-security" {
-				hasESLint = true
-			}
+		if f.GetMetadata()["suppress_type"] == "eslint-disable-security" {
+			hasESLint = true
 		}
 	}
 	if !hasESLint {
@@ -165,7 +159,7 @@ func testClient(t *testing.T) pluginv1.PluginServiceClient {
 	if err != nil {
 		t.Fatalf("grpc.NewClient: %v", err)
 	}
-	t.Cleanup(func() { conn.Close() })
+	t.Cleanup(func() { _ = conn.Close() })
 
 	return pluginv1.NewPluginServiceClient(conn)
 }

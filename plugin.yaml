@@ -1,0 +1,7 @@
+name: nox-plugin-baseline-mgmt
+version: 0.1.0
+track: policy-governance
+description: Detect suppressed security warnings, stale exceptions, and baseline drift
+tools:
+  - name: scan
+    description: Scan workspace for security baseline and drift management issues

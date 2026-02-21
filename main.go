@@ -26,7 +26,7 @@ var (
 	reSuppressESLint = regexp.MustCompile(`//\s*eslint-disable[^\n]*(security|no-eval|no-implied-eval)`)
 
 	// BASELINE-003: Stale security exceptions.
-	reSecurityTodo = regexp.MustCompile(`(?i)(TODO|FIXME|HACK|XXX)\b[^:]*\b(security|vuln|cve|exploit|auth|cred|secret|token|password|encrypt)`)
+	reSecurityTodo = regexp.MustCompile(`(?i)(TODO|FIXME|HACK|XXX)\b.*\b(security|vuln|cve|exploit|auth|cred|secret|token|password|encrypt)`)
 
 	// BASELINE-001: Security config files (names to check for version markers).
 	securityConfigNames = map[string]bool{
@@ -201,7 +201,7 @@ func scanSourceFile(resp *sdk.ResponseBuilder, filePath string) {
 	if err != nil {
 		return
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 
 	scanner := bufio.NewScanner(f)
 	lineNum := 0
@@ -314,12 +314,17 @@ func checkGitignoreCompleteness(resp *sdk.ResponseBuilder, workspaceRoot string,
 }
 
 func main() {
+	os.Exit(run())
+}
+
+func run() int {
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer cancel()
 
 	srv := buildServer()
 	if err := srv.Serve(ctx); err != nil {
 		fmt.Fprintf(os.Stderr, "nox-plugin-baseline-mgmt: %v\n", err)
-		os.Exit(1)
+		return 1
 	}
+	return 0
 }
