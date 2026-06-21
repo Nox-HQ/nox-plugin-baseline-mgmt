@@ -1,3 +1,6 @@
+> [!WARNING]
+> **Deprecated.** Baseline management is built into nox core — use `nox baseline write/update/diff/migrate` plus OpenVEX (`nox vex init`, `--vex`). This plugin is no longer developed; existing installs keep working.
+
 # nox-plugin-baseline-mgmt
 
 **Detect suppressed security warnings, stale exceptions, and baseline drift.**
