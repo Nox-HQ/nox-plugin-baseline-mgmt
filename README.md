@@ -1,3 +1,16 @@
+> ## ⚠️ Archived — superseded by nox core
+>
+> **This plugin is retired. Do not install it.** Remove it with
+> `nox plugin remove nox/baseline-mgmt`.
+>
+> Baseline handling is core behaviour and needs no plugin:
+> `nox baseline write`, `update`, `diff` and `migrate`, plus `nox vex` for
+> stating why a finding does not apply in a form other tools can consume.
+>
+> Core additionally distinguishes "nox found nothing" from "nox found it and
+> your configuration removed it" — suppressed findings are retained with a
+> `Status` and the reason, so a baseline cannot quietly become an all-clear.
+
 > [!WARNING]
 > **Deprecated.** Baseline management is built into nox core — use `nox baseline write/update/diff/migrate` plus OpenVEX (`nox vex init`, `--vex`). This plugin is no longer developed; existing installs keep working.
 
